@@ -143,7 +143,7 @@ let server_login_1234 = function(request, response) {
             data: JSON.stringify({
               data: newUser,
               code: 1,
-              msg: '新用户' + (params.admin === '1' ? '&管理员 ' : ' ') +  params.account + ' 登陆成功'
+              msg: '登陆成功 --- 非用户 => ' + (params.admin === '1' ? '管理员: ' : '用户: ') +  params.account
             })
           })
         },
@@ -174,7 +174,7 @@ let server_login_1234 = function(request, response) {
             data: JSON.stringify({
               data: allData[index],
               code: 1,
-              msg: '管理员 ' +  params.account + ' 登陆成功'
+              msg: '登陆成功 --- 管理员: ' +  params.account
             })
           })
         } else { // 本身不是管理员
@@ -189,7 +189,7 @@ let server_login_1234 = function(request, response) {
                 data: JSON.stringify({
                   data: allData[index],
                   code: 1,
-                  msg: '新管理员 ' +  params.account + ' 登陆成功'
+                  msg: '登陆成功 --- 用户 => 管理员: ' +  params.account
                 })
               })
             },
@@ -209,7 +209,7 @@ let server_login_1234 = function(request, response) {
                 data: JSON.stringify({
                   data: allData[index],
                   code: 1,
-                  msg: '用户 ' +  params.account + ' 登陆成功'
+                  msg: '登陆成功 --- 管理员 => 用户: ' +  params.account
                 })
               })
             },
@@ -222,7 +222,7 @@ let server_login_1234 = function(request, response) {
             data: JSON.stringify({
               data: allData[index],
               code: 1,
-              msg: '用户 ' +  params.account + ' 登陆成功'
+              msg: '登陆成功 --- 用户: ' + params.account
             })
           })
         }
