@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" class="text">
+  <input type="pass" class="pass">
+  <span class="btn">登录</span>
+</body>
+<script>
+  window.onload = function() {
+    (function() {
+      let server = new XMLHttpRequest()
+      window.ajax = function(obj) {
+
+        // 数据处理
+        let sendData = ''
+        for (let k in obj.data) {
+          sendData += k + '=' + obj.data[k] + '&'
+        }
+        sendData = sendData.substring(0, sendData.length - 1)
+
+        if (obj.type === 'get') { // get请求方式
+          server.open(obj.type, obj.url + '?' + sendData, true)
+          server.send()
+        } else if (obj.type === 'post') { // post请求
+          // 请求头
+          server.open(obj.type, obj.url, true)
+          // server.setRequestHeader('CONTENT-TYPE', 'application/x-www-form-urlencoded')
+          server.send(sendData)
+        }
+        server.onreadystatechange = function() {
+          if (server.readyState == 4 && server.status == 200) {
+            // console.log(server.responseText)
+            obj.success(server.responseText)
+          } else obj.error && obj.error(server.responseText)
+        }
+      }
+    })()
+    let dom = {
+      text: document.querySelector('.text'),
+      pass: document.querySelector('.pass'),
+      btn: document.querySelector('.btn')
+    }
+    dom.btn.onclick = function () {
+      console.log(33)
+      if (!dom.text.value || !dom.pass.value) {
+        alert('请补全信息')
+        return
+      }
+      let obj = {
+        url: 'http://localhost:1234',
+        type: 'post',
+        data: {
+          user: dom.text.value,
+          pass: dom.pass.value
+        },
+        success: function(data) {
+          console.log('success:', data)
+        },
+        error: function(data) {
+          console.log('error:', data)
+        }
+      }
+      console.log(obj)
+      ajax(obj)
+    }
+  }
+</script>
+</html>

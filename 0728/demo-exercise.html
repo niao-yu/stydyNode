@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <br><br>
+  <input type="text" name="" id="" placeholder="请输入文件名"><br><br>
+  <textarea cols="30" rows="10"></textarea><br><br>
+  <span>生成</span>
+</body>
+<script src="../lib.js"></script>
+<script>
+  window.onload = function() {
+    let dom = {
+      title: document.querySelector('input'),
+      content: document.querySelector('textarea'),
+      submit: document.querySelector('span')
+    }
+    dom.submit.onclick = function() {
+      let inputData = {
+        title: dom.title.value,
+        content: dom.content.value
+      }
+      if (inputData.title === '') {
+        alert('请输入名称')
+        return
+      }
+      if (inputData.content === '') {
+        alert('请输入内容')
+        return
+      }
+      ajax({
+        url: 'http://localhost:1234',
+        type: 'post',
+        data: {
+          title: inputData.title + '.txt',
+          content: inputData.content
+        },
+        success: function(data) {
+          alert(data)
+        }
+      })
+    }
+  }
+</script>
+</html>

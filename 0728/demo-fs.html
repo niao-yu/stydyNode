@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<script src="../lib.js"></script>
+<body>
+  <textarea cols="30" rows="10"></textarea>
+  <span onclick="submit()">提交</span>
+</body>
+<script>
+  function submit() {
+    let textarea = document.querySelector('textarea')
+    if (textarea.value === '') {
+      alert('请输入东西')
+      return
+    }
+    ajax({
+      url: 'http://localhost:1234',
+      type: 'post',
+      data: {
+        str: textarea.value
+      },
+      success: function(data) {
+        console.log('success：' + data)
+      }
+    })
+  }
+</script>
+</html>
