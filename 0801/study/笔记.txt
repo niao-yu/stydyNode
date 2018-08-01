@@ -1,0 +1,46 @@
+express -> npm node - 
+原生js -> jq
+node -> express
+1.下载
+2.引入
+3.创建一个server
+4.监听
+5.get（二级-三级。。。地址,function(req,res){}）
+ .post(二级-三级。。。地址,function(req,res){})
+ .use(二级-三级,function(req,res){
+
+ });
+
+require('url');
+
+on('data');
+on('end')
+
+如果是 get 数据的
+req.query -> 解析好了直接用
+
+插件 body-parser
+
+中间件 - 我们可以通过中间件去加工传递数据
+next()
+
+req.body->
+
+req.send()
+*
+req.write();
+req.end();
+
+express-static
+
+能改变文件地址 
+利用的中间件
+如果有这个文件就读出来显示
+
+
+
+
+
+
+
+
