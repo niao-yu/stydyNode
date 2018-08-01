@@ -1,5 +1,5 @@
 let express = require('express')
-let cookieParse = require('cookie-parse')
+let cookieParser = require('cookie-parser')
 let static = require('express-static')
 let fs = require('fs')
 
@@ -8,6 +8,7 @@ let server = express()
 server.listen('1234')
 
 server.use('/', function (req, res, next) {
+  console.log('use')
   fs.readFile('./www' + req.url + '.html', function(err, data) {
     if (err) next()
     else {
@@ -23,6 +24,7 @@ server.post('/register', function (req, res, next) {
 })
 
 server.get('*', function(req, res) {
+  console.log(req.path)
   fs.readFile('./www/404.html', function(error, data) {
     if (error) {
       res.send('位置错误')
@@ -32,4 +34,4 @@ server.get('*', function(req, res) {
     res.end()
   })
 })
-server.use(static('./www'))
+// server.use(static('./www'))
