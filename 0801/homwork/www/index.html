@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>登录注册系统</title>
+  <style>
+    .lookMenu {
+      display: none;
+    }
+
+    .lookMenu .docCon {
+      display: none;
+    }
+  </style>
+</head>
+<script src="./lib.js"></script>
+
+<body>
+  <div class="inputBox">
+    <input class="account" type="text" placeholder="请输入账号">
+    <br>
+    <br>
+    <input class="password" type="password" placeholder="请输入密码">
+    <br>
+    <br>
+    <span class="register">注册</span>
+    <span class="login">登陆</span>
+  </div>
+</body>
+<script>
+  window.onload = function () {
+    let baseUrl = 'http://localhost:1234'
+    let dom = {
+      account: document.querySelector('.account'),
+      password: document.querySelector('.password'),
+      register: document.querySelector('.register'),
+      login: document.querySelector('.login')
+    }
+    // 注册
+    dom.register.onclick = function () {
+      console.log('点击注册')
+      if (dom.account.value === '' || dom.password.value === '') {
+        alert('请输入完成')
+        return
+      }
+      ajax({
+        url: baseUrl + '/register',
+        type: 'post',
+        data: {
+          account: dom.account.value,
+          password: dom.password.value,
+        },
+        success: function (res) {
+          // console.log(res)
+          if (res.code === 0) { // 注册失败
+            alert(res.msg)
+            return
+          }
+          if (res.code === 1) { // 注册成功
+            res.msg && alert(res.msg)
+            let data = res.data
+            console.log('注册成功')
+            for (let k in data) {
+              localStorage.setItem(k, data[k])
+            }
+          }
+        }
+      })
+    }
+    // 登陆
+    dom.login.onclick = function () {
+      console.log('点击登陆')
+      if (dom.account.value === '' || dom.password.value === '') {
+        alert('请输入完成')
+        return
+      }
+      ajax({
+        url: baseUrl + '/login',
+        type: 'post',
+        data: {
+          account: dom.account.value,
+          password: dom.password.value,
+        },
+        success: function (res) {
+          // console.log(res)
+          if (res.code === 0) { // 登陆失败
+            alert(res.msg)
+            return
+          }
+          if (res.code === 1) { // 登陆成功
+            res.msg && alert(res.msg)
+            let data = res.data
+            console.log('登陆成功')
+            for (let k in data) {
+              localStorage.setItem(k, data[k])
+            }
+          }
+        }
+      })
+    }
+  }
+</script>
+
+</html>
