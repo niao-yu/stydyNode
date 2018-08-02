@@ -7,21 +7,23 @@ let server = express()
 
 server.listen('1234')
 
-server.use('/', function (req, res, next) {
-  console.log('use')
-  fs.readFile('./www' + req.url + '.html', function(err, data) {
-    if (err) next()
-    else {
-      res.write(data)
-      res.end()
-    }
-  })
-})
+server.use(static('./www'))
+
+// server.use('/', function (req, res, next) {
+//   console.log('use')
+//   fs.readFile('./www' + req.url + '.html', function(err, data) {
+//     if (err) next()
+//     else {
+//       res.write(data)
+//       res.end()
+//     }
+//   })
+// })
 
 
-server.post('/register', function (req, res, next) {
-  console.log(req.body)
-})
+// server.post('/register', function (req, res, next) {
+//   console.log(req.body)
+// })
 
 server.get('*', function(req, res) {
   console.log(req.path)
@@ -34,4 +36,3 @@ server.get('*', function(req, res) {
     res.end()
   })
 })
-// server.use(static('./www'))
