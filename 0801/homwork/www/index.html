@@ -55,17 +55,17 @@
         },
         success: function (res) {
           // console.log(res)
-          if (res.code === 0) { // 注册失败
+          if (res.data === 0) { // 注册失败
             alert(res.msg)
             return
           }
-          if (res.code === 1) { // 注册成功
-            res.msg && alert(res.msg)
-            let data = res.data
-            console.log('注册成功')
-            for (let k in data) {
-              localStorage.setItem(k, data[k])
-            }
+          if (res.data === 1) { // 注册成功
+            alert('注册成功')
+            dom.account.value = ''
+            dom.password.value = ''
+            // for (let k in data) {
+            //   localStorage.setItem(k, data[k])
+            // }
           }
         }
       })
@@ -86,17 +86,12 @@
         },
         success: function (res) {
           // console.log(res)
-          if (res.code === 0) { // 登陆失败
+          if (res.data === 0) { // 登陆失败
             alert(res.msg)
             return
           }
-          if (res.code === 1) { // 登陆成功
-            res.msg && alert(res.msg)
-            let data = res.data
-            console.log('登陆成功')
-            for (let k in data) {
-              localStorage.setItem(k, data[k])
-            }
+          if (res.data === 1) { // 登陆成功
+            alert('登陆成功')
           }
         }
       })
