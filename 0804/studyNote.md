@@ -157,3 +157,39 @@
 > 
 > server.use(static('./www'))
 > ```
+
+## 四、 mysql 数据库的连接与使用
+> **需要使用npm安装的模块**  
+> * mysql
+
+> ### 代码
+> ```
+> let mysql = require('mysql') // 引入插件
+> 
+> // 设定连接的 mysql 库
+> let pool = mysql.createPool({
+>   hose: 'localhost', // 网络路径
+>   port: '3306', // 端口,可不写,默认 3306
+>   user: 'root', // 数据库登陆账号
+>   password: '123', // 数据库登陆密码
+>   database: '20180805' // 链接的库名
+> })
+> 
+> // 创建一个连接服务
+> pool.getConnection((err, connection) => {
+>   if (err) {
+>     console.log('连接失败:' + err)
+>     connection.release()
+>   }
+>   else {
+>     console.log('连接成功')
+>     // 使用方法对数据库进行操作,使用数据库语句
+>     connection.query('INSERT INTO `userTab` (`user`, `pass`) VALUES("xiaoming", "123789");', > (err, data) => {
+>       if (err) console.log('操作失败:' + err)
+>       else console.log('操作成功')
+>       // 由于数据库设置的同时连接数量有限,用完之后,需要及时关闭这个连接
+>       connection.release()
+>     })
+>   }
+> })
+> ```
