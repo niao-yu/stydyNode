@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  这是
+
+
+  <dev v-for="index in 3">
+    <input v-if="index === 1" type="textarea">
+    <input @blur="actived = ''" @foucs="actived = index" :class="actived === index && 'actived'" v-else type="text">
+  </dev>
+
+
+
+
+</body>
+</html>

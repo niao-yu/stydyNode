@@ -84,6 +84,7 @@
 > * express
 > * body-parser
 > * cookie-parser
+> * express-static
 
 > ### 代码   
 > ```
@@ -91,17 +92,26 @@
 > let server = express() // 实例化express
 > let bodyParser = require('body-parser') // 中间件,用于获取 post 的传值
 > let cookieParser = require('cookie-parser') // cookie 操作插件
+> let static = require('express-static')
 > 
 > server.listen(1234) // 监听 1234 这个端口
+> 
 > // 使用中间件
 > // 格式化 post 请求的入参,extended 为 false 时,值为数组或string, true为任意数据类型
 > server.use(bodyParser.urlencoded({ extended: false }))
-> // 使用 cookieParser
-> server.use(cookieParser())
+> server.use(cookieParser()) // 使用 cookieParser
 > 
-> // 监听 get 请求 - 设置了接口名
-> server.get('/get', (req, res, next) => {
+> // 新建路由
+> let userRouter = express.Router()
+> let goodRouter = express.Router()
+> // 使用路由
+> server.use('/user', userRouter)
+> server.use('/good', goodRouter)
+> 
+> // userRouter 路由监听 get 请求 - 设置了接口名
+> userRouter.get('/get', (req, res, next) => {
 >   let data = req.query
+>   console.log(1, data)
 >   // 设置cookie
 >   res.cookie(
 >     'account', // cookie名
@@ -115,11 +125,16 @@
 >     params: data,
 >     a: '有人get了'
 >   }
->   next()
+>   if (res.paramsData) {
+>     console.log(res.paramsData.a, res.paramsData.params)
+>     res.send(JSON.stringify(res.paramsData.params)) // 发送返回值并结束请求
+>     return
+>   }
+>   res.send('发起了请求') // 发送返回值并结束请求
 > })
 > 
-> // 监听 post 请求 - 设置了接口名
-> server.post('/post', (req, res, next) => {
+> // goodRouter 路由监听 post 请求 - 设置了接口名
+> goodRouter.post('/post', (req, res, next) => {
 >   let data = req.body
 >   res.paramsData = {
 >     params: data,
@@ -128,8 +143,9 @@
 >   next()
 > })
 > 
+> 
 > // 可同时监听 get 和 post 请求
-> server.use('*', (req, res, next) => {
+> server.post('*', (req, res, next) => {
 >   res.setHeader("Access-Control-Allow-Origin", "*")
 >   if (res.paramsData) {
 >     console.log(res.paramsData.a, res.paramsData.params)
@@ -138,40 +154,6 @@
 >   }
 >   res.send('发起了请求') // 发送返回值并结束请求
 > })
-> ```
-
-## 四、 mysql 数据库的连接与使用
-> **需要使用npm安装的模块**  
-> * mysql
-
-> ### 代码
-> ```
-> let mysql = require('mysql') // 引入插件
 > 
-> // 设定连接的 mysql 库
-> let pool = mysql.createPool({
->   hose: 'localhost', // 网络路径
->   port: '3306', // 端口,可不写,默认 3306
->   user: 'root', // 数据库登陆账号
->   password: '123', // 数据库登陆密码
->   database: '20180805' // 链接的库名
-> })
-> 
-> // 创建一个连接服务
-> pool.getConnection((err, connection) => {
->   if (err) {
->     console.log('连接失败:' + err)
->     connection.release()
->   }
->   else {
->     console.log('连接成功')
->     // 使用方法对数据库进行操作,使用数据库语句
->     connection.query('INSERT INTO `userTab` (`user`, `pass`) VALUES("xiaoming", "123789");', > (err, data) => {
->       if (err) console.log('操作失败:' + err)
->       else console.log('操作成功')
->       // 由于数据库设置的同时连接数量有限,用完之后,需要及时关闭这个连接
->       connection.release()
->     })
->   }
-> })
+> server.use(static('./www'))
 > ```
